@@ -1,0 +1,5 @@
+moduleName=nft-vcf
+moduleVersion=1.0.0
+moduleAuthors=Sebastian 
+extensionClasses=genepi.nf.test.vcf.PathExtension
+extensionMethods=genepi.nf.test.vcf.Methods
