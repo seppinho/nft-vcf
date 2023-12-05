@@ -2,20 +2,30 @@ package genepi.nf.test.vcf;
 
 import java.nio.file.Path;
 
+import htsjdk.samtools.util.CloseableIterator;
+import htsjdk.variant.variantcontext.VariantContext;
 import htsjdk.variant.vcf.VCFFileReader;
-import htsjdk.variant.vcf.VCFHeader;
 
 public class Methods {
 
 	public static void helloVCF() {
 		System.out.println("Hello VCF");
 	}
-	
-	public static VCFHeader getVcfHeader(Path vcfFilename) {
+
+	public static VariantContext getVcfLine(Path vcfFilename, int pos) {
 		VCFFileReader reader = new VCFFileReader(vcfFilename, false);
-		VCFHeader header = reader.getFileHeader();
+		CloseableIterator<VariantContext> it = reader.iterator();
+
+		while (it.hasNext()) {
+
+			VariantContext line = it.next();
+
+			if (line.getStart() == pos) {
+				reader.close();
+				return line;
+			}
+		}
 		reader.close();
-		return header;
+		return null;
 	}
-	
 }
