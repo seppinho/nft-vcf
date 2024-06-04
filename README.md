@@ -23,4 +23,12 @@ config {
 nft-vcf extends `path` by a `vcf` property that can be used to read VCF files.
 
 
-TODO: examples
+## Examples
+
+```groovy
+def vcfFile = path("${outputDir}/chr20.dose.vcf.gz").vcf
+assert vcfFile.getChromosome() == "20"
+assert vcfFile.getNoSamples() == 51
+assert vcfFile.isPhased()
+assert fivcfFilele.getNoSnps() == 1020
+```
