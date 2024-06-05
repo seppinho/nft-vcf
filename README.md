@@ -30,5 +30,5 @@ def vcfFile = path("${outputDir}/chr20.dose.vcf.gz").vcf
 assert vcfFile.getChromosome() == "20"
 assert vcfFile.getNoSamples() == 51
 assert vcfFile.isPhased()
-assert fivcfFilele.getNoSnps() == 1020
+assert vcfFile.getNoSnps() == 1020
 ```
