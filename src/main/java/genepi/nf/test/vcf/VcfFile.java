@@ -2,15 +2,19 @@ package genepi.nf.test.vcf;
 
 import java.util.Set;
 
+import htsjdk.variant.vcf.VCFHeader;
+
 public class VcfFile {
 
 	private Set<String> chromosomes;
 
 	private String vcfFilename;
 
-	private int noSamples = -1;
+	private VCFHeader header;
 
-	private int noSnps = -1;
+	private int sampleCount = -1;
+
+	private int snpCount = -1;
 
 	private boolean phased = true;
 
@@ -18,12 +22,12 @@ public class VcfFile {
 
 	private boolean chrPrefix;
 
-	public int getNoSnps() {
-		return noSnps;
+	public int getSnpCount() {
+		return snpCount;
 	}
 
-	public void setNoSnps(int noSnps) {
-		this.noSnps = noSnps;
+	public void setSnpCount(int snps) {
+		this.snpCount = snps;
 	}
 
 	public Set<String> getChromosomes() {
@@ -38,16 +42,16 @@ public class VcfFile {
 		return vcfFilename;
 	}
 
-	public int getNoSamples() {
-		return noSamples;
-	}
-
 	public void setVcfFilename(String vcfFilename) {
 		this.vcfFilename = vcfFilename;
 	}
 
-	public void setNoSamples(int noSamples) {
-		this.noSamples = noSamples;
+	public int getSampleCount() {
+		return sampleCount;
+	}
+
+	public void setSampleCount(int noSamples) {
+		this.sampleCount = noSamples;
 	}
 
 	public void setChromosomes(Set<String> chromosomes) {
@@ -86,9 +90,43 @@ public class VcfFile {
 	public void setPhasedAutodetect(boolean phasedAutodetect) {
 		this.phasedAutodetect = phasedAutodetect;
 	}
-	
-	public String toString() {
-		return "Chromosome: " + getChromosome() + "\n Samples: " + getNoSamples() + "\n Snps: " + getNoSnps();
+
+	public VCFHeader getHeader() {
+		return header;
 	}
+
+	public void setHeader(VCFHeader header) {
+		this.header = header;
+	}
+	
+	public String getSummary() {
+		return this.toString();
+	}	
+
+	@Override
+	public String toString() {
+		return "VcfFile [chromosomes=" + chromosomes + ", noSamples=" + sampleCount + ", noSnps=" + snpCount
+				+ ", phased=" + phased + ", phasedAutodetect=" + phasedAutodetect + ", chrPrefix=" + chrPrefix + "]";
+	}
+
+	@Deprecated
+	public int getNoSnps() {
+		return snpCount;
+	}
+
+	@Deprecated
+	public void setNoSnps(int noSnps) {
+		this.snpCount = noSnps;
+	}
+	
+	@Deprecated
+	public int getNoSamples() {
+		return sampleCount;
+	}
+	
+	@Deprecated
+	public void setNoSamples(int noSamples) {
+		this.sampleCount = noSamples;
+	}	
 
 }

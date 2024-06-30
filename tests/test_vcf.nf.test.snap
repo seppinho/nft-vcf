@@ -1,0 +1,22 @@
+{
+    "Should output header": {
+        "content": [
+            8
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-30T12:46:36.528291"
+    },
+    "Should output summary": {
+        "content": [
+            "VcfFile [chromosomes=[20], noSamples=0, noSnps=63480, phased=true, phasedAutodetect=true, chrPrefix=false]"
+        ],
+        "meta": {
+            "nf-test": "0.9.0-rc2",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-06-30T12:45:23.226834"
+    }
+}

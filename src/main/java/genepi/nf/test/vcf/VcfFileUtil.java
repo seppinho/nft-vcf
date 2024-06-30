@@ -7,6 +7,7 @@ import java.util.Set;
 
 import genepi.io.text.LineReader;
 import htsjdk.variant.vcf.VCFFileReader;
+import htsjdk.variant.vcf.VCFHeader;
 
 public class VcfFileUtil {
 
@@ -14,14 +15,16 @@ public class VcfFileUtil {
 
 		Set<String> chromosomes = new HashSet<String>();
 		Set<String> rawChromosomes = new HashSet<String>();
-		int noSnps = 0;
-		int noSamples = 0;
+		int snps = 0;
+		int samples = 0;
 
 		try {
 
 			VCFFileReader reader = new VCFFileReader(vcfFilename, false);
 
-			noSamples = reader.getFileHeader().getGenotypeSamples().size();
+			samples = reader.getFileHeader().getGenotypeSamples().size();
+
+			VCFHeader header = reader.getFileHeader();
 
 			reader.close();
 
@@ -46,29 +49,30 @@ public class VcfFileUtil {
 					rawChromosomes.add(chromosome);
 					chromosome = chromosome.replaceAll("chr", "");
 
-					if (phased) {
-						boolean containsSymbol = tiles[9].contains("/");
+					if (samples > 0) {
 
-						if (containsSymbol) {
-							phased = false;
+						if (phased) {
+							boolean containsSymbol = tiles[9].contains("/");
+
+							if (containsSymbol) {
+								phased = false;
+							}
+
 						}
 
-					}
+						if (firstLine) {
+							boolean containsSymbol = tiles[9].contains("/") || tiles[9].contains(".");
 
-					if (firstLine) {
-						boolean containsSymbol = tiles[9].contains("/") || tiles[9].contains(".");
+							if (!containsSymbol) {
+								phasedAutodetect = true;
+							} else {
+								phasedAutodetect = false;
+							}
+							firstLine = false;
 
-						if (!containsSymbol) {
-							phasedAutodetect = true;
-						} else {
-							phasedAutodetect = false;
 						}
-						firstLine = false;
-
 					}
 
-					// TODO: check that all are phased
-					// context.getGenotypes().get(0).isPhased();
 					chromosomes.add(chromosome);
 					if (chromosomes.size() > 1) {
 						throw new IOException(
@@ -83,7 +87,7 @@ public class VcfFileUtil {
 								+ ": reference allele (" + ref + ") and alternate allele  (" + alt + ") are the same.");
 					}
 
-					noSnps++;
+					snps++;
 
 				} else {
 
@@ -92,17 +96,17 @@ public class VcfFileUtil {
 						String[] tiles = line.split("\t");
 
 						// check sample names, stop when not unique
-						HashSet<String> samples = new HashSet<>();
+						HashSet<String> uniqueSamples = new HashSet<>();
 
 						for (int i = 0; i < tiles.length; i++) {
 
 							String sample = tiles[i];
 
-							if (samples.contains(sample)) {
+							if (uniqueSamples.contains(sample)) {
 								reader.close();
 								throw new IOException("Two individuals or more have the following ID: " + sample);
 							}
-							samples.add(sample);
+							uniqueSamples.add(sample);
 						}
 					}
 
@@ -113,9 +117,10 @@ public class VcfFileUtil {
 
 			VcfFile file = new VcfFile();
 			file.setVcfFilename(vcfFilename.toString());
-			file.setNoSnps(noSnps);
-			file.setNoSamples(noSamples);
+			file.setSnpCount(snps);
+			file.setSampleCount(samples);
 			file.setChromosomes(chromosomes);
+			file.setHeader(header);
 
 			boolean hasChrPrefix = false;
 			for (String chromosome : rawChromosomes) {

@@ -1,0 +1,89 @@
+nextflow_process {
+
+    name "Test VCF"
+
+    script "./test_vcf.nf"
+    process "TEST_VCF"
+
+    test("Should output samples") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.vcf.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert chromosome == "20"
+            assert sampleCount == 51
+            assert snpCount == 7824
+            assert phased            
+            //deprecated 
+            assert noSamples == 51
+            assert noSnps == 7824
+        }
+       }   
+    }
+
+    test("Should output number of SNPs") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert getNoSnps() == 63480
+        }
+       }   
+    }
+
+    test("Should output summary") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert snapshot(
+              summary
+            ).match()
+        }
+       }   
+    }
+    test("Should output header") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert snapshot(
+              header.getColumnCount()
+            ).match()
+        }
+       }   
+    }
+
+}
