@@ -28,7 +28,7 @@ public class VcfFile {
 
 	private int sampleCount = -1;
 
-	private int snpCount = -1;
+	private int variantCount = -1;
 
 	private boolean phased = true;
 
@@ -36,12 +36,12 @@ public class VcfFile {
 
 	private boolean chrPrefix;
 
-	public int getSnpCount() {
-		return snpCount;
+	public int getVariantCount() {
+		return variantCount;
 	}
 
-	public void setSnpCount(int snps) {
-		this.snpCount = snps;
+	public void setVariantCount(int snps) {
+		this.variantCount = snps;
 	}
 
 	public Set<String> getChromosomes() {
@@ -117,12 +117,13 @@ public class VcfFile {
 		return this.toString();
 	}
 
+	
 	@Override
 	public String toString() {
-		return "VcfFile [chromosomes=" + chromosomes + ", noSamples=" + sampleCount + ", noSnps=" + snpCount
-				+ ", phased=" + phased + ", phasedAutodetect=" + phasedAutodetect + ", chrPrefix=" + chrPrefix + "]";
+		return "VcfFile [chromosomes=" + chromosomes + ", sampleCount=" + sampleCount + ", variantCount=" + variantCount + ", phased=" + phased
+				+ ", phasedAutodetect=" + phasedAutodetect + "]";
 	}
-	
+
 	public ArrayList<String> getVariants() throws IOException {
 		return getVariants(-1);
 	}
@@ -161,7 +162,7 @@ public class VcfFile {
 		return new BigInteger(1, md.digest()).toString(16);
 	}
 	
-	public ArrayList<String> getRange(String chromosome, int start, int stop) throws IOException {
+	public ArrayList<String> getVariantsRange(String chromosome, int start, int stop) throws IOException {
 
 		LineReader lineReader = new LineReader(vcfFilename.toString());
 		ArrayList<String> variants = new ArrayList<String>();
@@ -216,12 +217,12 @@ public class VcfFile {
 
 	@Deprecated
 	public int getNoSnps() {
-		return snpCount;
+		return variantCount;
 	}
 
 	@Deprecated
 	public void setNoSnps(int noSnps) {
-		this.snpCount = noSnps;
+		this.variantCount = noSnps;
 	}
 
 	@Deprecated

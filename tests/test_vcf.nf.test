@@ -17,10 +17,11 @@ nextflow_process {
 
         then {
           def filename = process.out.vcf.get(0)
+          path(filename).vcf.chromosome
           with(path(filename).vcf) {
             assert chromosome == "20"
             assert sampleCount == 51
-            assert snpCount == 7824
+            assert variantCount == 7824
             assert phased            
             //deprecated 
             assert noSamples == 51
@@ -118,7 +119,7 @@ nextflow_process {
         then {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
-            assert getVariants().size() == 63480
+            assert variants.size() == 63480
         }
        }   
     }
@@ -227,7 +228,7 @@ nextflow_process {
         then {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
-            assert getRange("20",61795,64150).size() == 5
+            assert getVariantsRange("20",61795,64150).size() == 5
         }
        }   
     }    

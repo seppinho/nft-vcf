@@ -13,7 +13,7 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-07-11T14:47:49.276561"
+        "timestamp": "2024-07-11T15:37:15.389646"
     },
     "Should output variants as MD5": {
         "content": [
@@ -23,26 +23,26 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-07-11T14:48:04.637136"
+        "timestamp": "2024-07-11T15:37:30.239471"
     },
     "Should output header": {
         "content": [
             8
         ],
         "meta": {
-            "nf-test": "0.9.0-rc2",
+            "nf-test": "0.8.4",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-30T12:46:36.528291"
+        "timestamp": "2024-07-11T15:37:07.678134"
     },
     "Should output summary": {
         "content": [
-            "VcfFile [chromosomes=[20], noSamples=0, noSnps=63480, phased=true, phasedAutodetect=true, chrPrefix=false]"
+            "VcfFile [chromosomes=[20], sampleCount=0, variantCount=63480, phased=true, phasedAutodetect=true]"
         ],
         "meta": {
-            "nf-test": "0.9.0-rc2",
+            "nf-test": "0.8.4",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-06-30T12:45:23.226834"
+        "timestamp": "2024-07-11T15:37:00.63156"
     }
 }

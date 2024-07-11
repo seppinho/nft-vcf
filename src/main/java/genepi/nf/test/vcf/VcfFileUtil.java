@@ -117,7 +117,7 @@ public class VcfFileUtil {
 
 			VcfFile file = new VcfFile();
 			file.setVcfFilename(vcfFilename.toString());
-			file.setSnpCount(snps);
+			file.setVariantCount(snps);
 			file.setSampleCount(samples);
 			file.setChromosomes(chromosomes);
 			file.setHeader(header);
