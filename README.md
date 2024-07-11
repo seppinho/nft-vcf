@@ -42,18 +42,18 @@ with(path(filename).vcf) {
 ```
 
 ### `header`
-Header return a htsjdk.variant.vcf.VCFHeader object. Therefore, all header methods can be accessed.
+Header returns a htsjdk.variant.vcf.VCFHeader object. All VCFHeader methods can be accessed.
 ```groovy
 assert path("file.vcf.gz").vcf.header.getColumnCount() == 4
 ```
 
 ### `summary`
-Summary returns an overview of the VCF file (chromosomes, variantCount, sampleCount, phasing status).
+Returns a string containing specific VCF summary attributes (chromosomes, variantCount, sampleCount, phasing status).
 ```groovy
 path("file.vcf.gz").vcf.summary
 ```
 ### `getVariant`
-Returns a HTSJDK VariantContext object of a specific variant defined by chromosome and position. Therefore, all VariantContext methods can be accessed.
+Returns a variantContext object containing a variant defined by chromosome and position. All variantContext methods can be accessed.
 ```groovy
 path("file.vcf.gz").vcf.getVariant("chr20",123)
 path("file.vcf.gz").vcf.getVariant("chr20",123).getContig()
@@ -62,32 +62,32 @@ path("file.vcf.gz").vcf.getVariant("chr20",123).getAttribute("XX")
 ```
 
 ### `getVariants`
-Returns a string array of all variants or of the first n lines. 
+Returns a string array containing all variants or the first n variants. 
 ```groovy
 path("file.vcf.gz").vcf.variants.size()
 path("file.vcf.gz").vcf.getVariants(100).size()
 ```
 
 ### `getVariantsMD5`
-Returns the MD5 hashsum of all variants.
+Returns a string value containing the MD5 hashsum of all variants.
 ```groovy
 path("file.vcf.gz").vcf.getVariantsMD5()
 ```
 
 ### `getVariantsRange`
-Returns a range of variants.
+Returns a string array containing a range of variants.
 ```groovy
 path("file.vcf.gz").vcf.getVariantsRange("chr20", 1, 10)
 ```
 
 ### `getInfoR2`
-Returns the INFO R2 field of a specific variant.
+Returns a double value containing the INFO R2 value of a specific variant.
 ```groovy
 path("file.vcf.gz").vcf.getInfoR2("chr20", 1, 10)
 ```
 
 ### `getInfoTag`
-Returns the specified INFO field of a specific variant.
+Returns a string value containing the specified INFO field of a particular variant.
 ```groovy
 path("file.vcf.gz").vcf.getInfoTag("R2", "chr20", 1, 10)
 ```
