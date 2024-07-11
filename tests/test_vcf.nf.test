@@ -86,4 +86,168 @@ nextflow_process {
        }   
     }
 
+    test("Should output first 5 variants") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert snapshot(
+              getVariants(5)
+            ).match()
+        }
+       }   
+    }
+    test("Should output all variants") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert getVariants().size() == 63480
+        }
+       }   
+    }
+
+    test("Should output variants as MD5") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert snapshot(
+              getVariantsMD5()
+            ).match()
+        }
+       }   
+    }
+    test("Should output hetcount (path)") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.vcf.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert getVariant("20",68749).getHetCount() == 23 
+        }
+       }   
+    }
+
+    test("Should output hetcount (method)") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.vcf.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+            with(getVcfLine(path(filename),68749)) {
+                assert getHetCount() == 23     
+            }
+       }   
+    }
+
+    test("Should output R2 info tag") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert getInfoR2("20",61795) == 0.567114
+        }
+       }   
+    }
+
+    test("Should output userdefined info tag") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert getInfoTag("R2","20",61795) == '0.567114'
+        }
+       }   
+    }
+
+    test("Should output VCF range") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            assert getRange("20",61795,64150).size() == 5
+        }
+       }   
+    }    
+
+    test("Should create index") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+          with(path(filename).vcf) {
+            createIndex()
+            assert workflow.success
+        }
+       }   
+    } 
 }
