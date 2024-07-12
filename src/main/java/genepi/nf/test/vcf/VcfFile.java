@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import genepi.io.text.LineReader;
+import htsjdk.samtools.SAMSequenceDictionary;
 import htsjdk.samtools.util.CloseableIterator;
 import htsjdk.tribble.index.IndexFactory;
 import htsjdk.tribble.index.tabix.TabixFormat;
@@ -243,12 +244,12 @@ public class VcfFile {
 	}
 
 	public void createIndex() throws IOException {
-
-		TabixIndex index = IndexFactory.createTabixIndex(new File(vcfFilename), new VCFCodec(), TabixFormat.VCF, null);
-		File indexFile = new File(new File(vcfFilename).getAbsolutePath() + ".tbi");
-		if(!indexFile.exists()) {
-		index.write(indexFile);
-		}
+        File vcfFile = new File(vcfFilename);
+        VCFFileReader reader = new VCFFileReader(vcfFile, false);
+        SAMSequenceDictionary vcfDict = reader.getFileHeader().getSequenceDictionary();
+		TabixIndex index = IndexFactory.createTabixIndex(new File(vcfFilename), new VCFCodec(), TabixFormat.VCF, vcfDict);
+		index.writeBasedOnFeatureFile(new File(vcfFilename));
+		reader.close();
 	}
 
 }
