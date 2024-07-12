@@ -10,7 +10,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.vcf.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
           """
           }
         }
@@ -19,13 +19,13 @@ nextflow_process {
           def filename = process.out.vcf.get(0)
           path(filename).vcf.chromosome
           with(path(filename).vcf) {
-            assert chromosome == "20"
-            assert sampleCount == 51
-            assert variantCount == 7824
+            assert chromosome == "1"
+            assert sampleCount == 60
+            assert variantCount == 8285
             assert phased            
             //deprecated 
-            assert noSamples == 51
-            assert noSnps == 7824
+            assert noSamples == 60
+            assert noSnps == 8285
         }
        }   
     }
@@ -35,7 +35,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -43,7 +43,7 @@ nextflow_process {
         then {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
-            assert getNoSnps() == 63480
+            assert variantCount == 8285
         }
        }   
     }
@@ -53,7 +53,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -72,7 +72,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -92,7 +92,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -100,9 +100,8 @@ nextflow_process {
         then {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
-            assert snapshot(
-              getVariants(5)
-            ).match()
+             assert getVariants(5).size() == 5
+             assert getVariants().size() == 8285
         }
        }   
     }
@@ -111,7 +110,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -119,7 +118,7 @@ nextflow_process {
         then {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
-            assert variants.size() == 63480
+            assert variants.size() == 8285
         }
        }   
     }
@@ -129,7 +128,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -138,7 +137,7 @@ nextflow_process {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
             assert snapshot(
-              getVariantsMD5()
+              variantsMD5
             ).match()
         }
        }   
@@ -148,7 +147,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.vcf.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
           """
           }
         }
@@ -156,7 +155,7 @@ nextflow_process {
         then {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
-            assert getVariant("20",68749).getHetCount() == 23 
+            assert getVariant("1",240001917).getHetCount() == 7 
         }
        }   
     }
@@ -166,15 +165,15 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.vcf.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
           """
           }
         }
 
         then {
           def filename = process.out.vcf.get(0)
-            with(getVcfLine(path(filename),68749)) {
-                assert getHetCount() == 23     
+            with(getVariant(path(filename),"1",240001917)) {
+                assert getHetCount() == 7     
             }
        }   
     }
@@ -184,7 +183,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -192,7 +191,7 @@ nextflow_process {
         then {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
-            assert getInfoR2("20",61795) == 0.567114
+            assert getInfoR2("1",240001917) == 0.850629
         }
        }   
     }
@@ -202,7 +201,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -210,7 +209,7 @@ nextflow_process {
         then {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
-            assert getInfoTag("R2","20",61795) == '0.567114'
+            assert getInfoTag("MAF","1",240001917) == '0.0719583'
         }
        }   
     }
@@ -220,7 +219,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -228,7 +227,7 @@ nextflow_process {
         then {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
-            assert getVariantsRange("20",61795,64150).size() == 5
+            assert getVariantsByRange("1",240001917,240006785).size() == 4
         }
        }   
     }    
@@ -238,7 +237,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chr20.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }

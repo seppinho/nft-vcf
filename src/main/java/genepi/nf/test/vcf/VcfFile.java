@@ -123,12 +123,46 @@ public class VcfFile {
 		return "VcfFile [chromosomes=" + chromosomes + ", sampleCount=" + sampleCount + ", variantCount=" + variantCount + ", phased=" + phased
 				+ ", phasedAutodetect=" + phasedAutodetect + "]";
 	}
-
-	public ArrayList<String> getVariants() throws IOException {
+	
+	public VariantContext getVariant(String chromosome, int position) throws IOException {
+		createIndex();
+		VCFFileReader reader = new VCFFileReader(new File(vcfFilename), true);
+		CloseableIterator<VariantContext> it = reader.query(chromosome, position, position);
+		
+		while (it.hasNext()) {
+			VariantContext line = it.next();
+			reader.close();
+			return line;
+			}
+		
+		reader.close();
+		return null;
+	}
+	
+	public ArrayList<VariantContext> getVariants() throws IOException {
 		return getVariants(-1);
 	}
 
-	public ArrayList<String> getVariants(int linesToReturn) throws IOException {
+	public ArrayList<VariantContext> getVariants(int linesToReturn) throws IOException {
+		VCFFileReader reader = new VCFFileReader(new File(vcfFilename), false);
+		CloseableIterator<VariantContext> it = reader.iterator();
+		ArrayList<VariantContext> variants = new ArrayList<VariantContext>();
+		int count = 0;
+
+		while (it.hasNext() && (count < linesToReturn || linesToReturn == -1)) {
+			VariantContext line = it.next();
+			count++;
+			variants.add(line);
+		}
+		reader.close();
+		return variants;
+	}
+
+	public ArrayList<String> getVariantsAsStrings() throws IOException {
+		return getVariantsAsStrings(-1);
+	}
+
+	public ArrayList<String> getVariantsAsStrings(int linesToReturn) throws IOException {
 		LineReader lineReader = new LineReader(vcfFilename.toString());
 		ArrayList<String> variants = new ArrayList<String>();
 		int count = 0;
@@ -157,53 +191,26 @@ public class VcfFile {
 			}
 
 		}
-
 		lineReader.close();
 		return new BigInteger(1, md.digest()).toString(16);
 	}
 	
-	public ArrayList<String> getVariantsRange(String chromosome, int start, int stop) throws IOException {
+	public ArrayList<VariantContext> getVariantsByRange(String chromosome, int start, int stop) throws IOException {
 
-		LineReader lineReader = new LineReader(vcfFilename.toString());
-		ArrayList<String> variants = new ArrayList<String>();
-
-		while (lineReader.next()) {
-			
-			String line = lineReader.get();
-			
-			if (line.startsWith("#")) {
-				continue;
-			}
-			
-			String tiles[] = line.split("\t", 3);
-			String chr = tiles[0];
-			int pos = Integer.valueOf(tiles[1]);
-			if (chr.equals(chromosome) && (pos>=start && pos<=stop)) {
-				variants.add(line);
-			}
-			
-		}
-
-		lineReader.close();
-		return variants;
-
-	}	
-	
-	public VariantContext getVariant(String chromosome, int position) throws IOException {
-		VCFFileReader reader = new VCFFileReader(new File(vcfFilename), false);
-		CloseableIterator<VariantContext> it = reader.iterator();
+		createIndex();
+		VCFFileReader reader = new VCFFileReader(new File(vcfFilename), true);
+		ArrayList<VariantContext> variants = new ArrayList<VariantContext>();
+		CloseableIterator<VariantContext> it = reader.query(chromosome, start, stop);
 		
 		while (it.hasNext()) {
 			VariantContext line = it.next();
-			if (line.getContig().equals(chromosome) && line.getStart() == position) {
-				reader.close();
-				return line;
+			variants.add(line);
 			}
-		}
 		
 		reader.close();
-		return null;
-	}
+		return variants;
+
+	}	
 	
 	public double getInfoR2(String chromosome, int position) throws IOException {
 		String value = getInfoTag("R2", chromosome, position);
@@ -239,7 +246,9 @@ public class VcfFile {
 
 		TabixIndex index = IndexFactory.createTabixIndex(new File(vcfFilename), new VCFCodec(), TabixFormat.VCF, null);
 		File indexFile = new File(new File(vcfFilename).getAbsolutePath() + ".tbi");
+		if(!indexFile.exists()) {
 		index.write(indexFile);
+		}
 	}
 
 }

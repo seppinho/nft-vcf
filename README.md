@@ -42,58 +42,62 @@ with(path(filename).vcf) {
 ```
 
 ### `header`
-Header returns a htsjdk.variant.vcf.VCFHeader object. All VCFHeader methods can be accessed.
+Returns the [VCF Header](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/vcf/VCFHeader.html) instance and allows you to access all available methods.
 ```groovy
 assert path("file.vcf.gz").vcf.header.getColumnCount() == 4
 ```
 
 ### `summary`
-Returns a string containing specific VCF summary attributes (chromosomes, variantCount, sampleCount, phasing status).
+Returns VCF summary attributes (chromosomes, variantCount, sampleCount, phasing status).
 ```groovy
 path("file.vcf.gz").vcf.summary
 ```
-### `getVariant`
-Returns a variantContext object containing a variant defined by chromosome and position. All variantContext methods can be accessed.
+### `getVariant(String chromosome, String position)`
+Returns a [VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) instance and allows you to access all available methods.
 ```groovy
 path("file.vcf.gz").vcf.getVariant("chr20",123)
 path("file.vcf.gz").vcf.getVariant("chr20",123).getContig()
 path("file.vcf.gz").vcf.getVariant("chr20",123).getHetCount()
 path("file.vcf.gz").vcf.getVariant("chr20",123).getAttribute("XX")
 ```
-
-### `getVariants`
-Returns a string array containing all variants or the first n variants. 
+### `variants`
+Returns an array of [VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) instances and allows you to access all available methods.
 ```groovy
 path("file.vcf.gz").vcf.variants.size()
+```
+
+### `getVariants(int numberOflines)`
+Returns an array of [VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) instances and allows you to access all available methods.
+```groovy
 path("file.vcf.gz").vcf.getVariants(100).size()
 ```
 
-### `getVariantsMD5`
-Returns a string value containing the MD5 hashsum of all variants.
+### `variantsMD5`
+Returns the MD5 hashsum of all variants.
 ```groovy
-path("file.vcf.gz").vcf.getVariantsMD5()
+path("file.vcf.gz").vcf.variantsMD5
 ```
 
-### `getVariantsRange`
-Returns a string array containing a range of variants.
+### `getVariantsByRange(String chromosome, int start, int stop)`
+Returns an array of [VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) instances and allows you to access all available methods.
 ```groovy
 path("file.vcf.gz").vcf.getVariantsRange("chr20", 1, 10)
 ```
 
-### `getInfoR2`
-Returns a double value containing the INFO R2 value of a specific variant.
+### `getInfoR2(String chromosome, int position)`
+Returns a the INFO R2 value of a specific variant.
 ```groovy
-path("file.vcf.gz").vcf.getInfoR2("chr20", 1, 10)
+path("file.vcf.gz").vcf.getInfoR2("chr20", 1)
 ```
 
-### `getInfoTag`
-Returns a string value containing the specified INFO field of a particular variant.
+### `getInfoTag(String tag, String chromosome, int position)`
+Returns the specified INFO field value of a particular variant.
 ```groovy
-path("file.vcf.gz").vcf.getInfoTag("R2", "chr20", 1, 10)
+path("file.vcf.gz").vcf.getInfoTag("R2", "chr20", 1)
 ```
 
-### `createIndex`
-Create a TABIX index for the vcf file.
+### `createIndex()`
+Create a tabix index for the specified VCF file.
 ```groovy
 path("file.vcf.gz").vcf.createIndex()
 ```

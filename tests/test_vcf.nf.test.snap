@@ -1,29 +1,13 @@
 {
-    "Should output first 5 variants": {
-        "content": [
-            [
-                "20\t61795\t.\tG\tT\t.\t.\tAF=0.252088;MAF=0.252088;AVG_CS=0.894225;R2=0.567114;IMPUTED",
-                "20\t63231\t.\tT\tG\t.\t.\tAF=0.0370196;MAF=0.0370196;AVG_CS=0.984824;R2=0.703135;IMPUTED",
-                "20\t63244\t.\tA\tC\t.\t.\tAF=0.150039;MAF=0.150039;AVG_CS=0.927431;R2=0.528218;IMPUTED",
-                "20\t63799\t.\tC\tT\t.\t.\tAF=0.252088;MAF=0.252088;AVG_CS=0.894225;R2=0.567114;IMPUTED",
-                "20\t64150\t.\tC\tA\t.\t.\tAF=0.0154804;MAF=0.0154804;AVG_CS=0.98452;R2=0.0776218;IMPUTED"
-            ]
-        ],
-        "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.2"
-        },
-        "timestamp": "2024-07-11T15:37:15.389646"
-    },
     "Should output variants as MD5": {
         "content": [
-            "b6df00f466c4cd359a896aeab66e07b5"
+            "f8f5e1b775271b587f4dd368d1858d0e"
         ],
         "meta": {
             "nf-test": "0.8.4",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-07-11T15:37:30.239471"
+        "timestamp": "2024-07-12T17:17:14.44526"
     },
     "Should output header": {
         "content": [
@@ -33,16 +17,16 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-07-11T15:37:07.678134"
+        "timestamp": "2024-07-12T17:16:52.079568"
     },
     "Should output summary": {
         "content": [
-            "VcfFile [chromosomes=[20], sampleCount=0, variantCount=63480, phased=true, phasedAutodetect=true]"
+            "VcfFile [chromosomes=[1], sampleCount=0, variantCount=8285, phased=true, phasedAutodetect=true]"
         ],
         "meta": {
             "nf-test": "0.8.4",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2024-07-11T15:37:00.63156"
+        "timestamp": "2024-07-12T17:16:44.269596"
     }
 }
