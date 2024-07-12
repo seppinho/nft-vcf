@@ -67,7 +67,7 @@ path("file.vcf.gz").vcf.variants.size()
 ```
 
 ### `getVariants(int numberOflines)`
-Returns an array of [VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) instances and allows you to access all available methods.
+Returns an array of *n* [VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) instances and allows you to access all available methods.
 ```groovy
 path("file.vcf.gz").vcf.getVariants(100).size()
 ```
@@ -85,13 +85,13 @@ path("file.vcf.gz").vcf.getVariantsRange("chr20", 1, 10)
 ```
 
 ### `getInfoR2(String chromosome, int position)`
-Returns a the INFO R2 value of a specific variant.
+Returns the INFO R2 double value of a specific variant.
 ```groovy
 path("file.vcf.gz").vcf.getInfoR2("chr20", 1)
 ```
 
 ### `getInfoTag(String tag, String chromosome, int position)`
-Returns the specified INFO field value of a particular variant.
+Returns the specified INFO field String value of a specific variant.
 ```groovy
 path("file.vcf.gz").vcf.getInfoTag("R2", "chr20", 1)
 ```
