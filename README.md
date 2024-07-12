@@ -1,6 +1,6 @@
 # nft-vcf
 
-nf-test plugin to support for VCF files.
+nf-test plugin to support VCF files.
 
 ## Requirements
 
