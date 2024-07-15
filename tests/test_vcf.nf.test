@@ -110,7 +110,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
           """
           }
         }
@@ -119,6 +119,10 @@ nextflow_process {
           def filename = process.out.vcf.get(0)
           with(path(filename).vcf) {
             assert variants.size() == 8285
+            for(def variant : variants) {
+              if(variant.getStart() == 240137682)
+                assert variant.getHetCount() == 22
+            }              
         }
        }   
     }
