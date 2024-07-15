@@ -72,6 +72,12 @@ Returns an array of *n* [VariantContext](https://samtools.github.io/htsjdk/javad
 path("file.vcf.gz").vcf.getVariants(100).size()
 ```
 
+### `getVariantsAsStrings(int numberOflines)`
+Returns a String array including *n* lines.
+```groovy
+path("file.vcf.gz").vcf.getVariantsAsStrings(100).size()
+```
+
 ### `variantsMD5`
 Returns the MD5 hashsum of all variants.
 ```groovy
