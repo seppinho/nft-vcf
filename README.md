@@ -13,7 +13,7 @@ To use this plugin you need to activate the `nft-vcf` plugin in your `nf-test.co
 ```
 config {
   plugins {
-    load "nft-vcf@1.0.6"
+    load "nft-vcf@1.0.7"
   }
 }
 ```
