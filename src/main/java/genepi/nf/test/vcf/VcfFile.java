@@ -35,8 +35,6 @@ public class VcfFile {
 
 	private boolean phasedAutodetect = true;
 
-	private boolean chrPrefix;
-
 	public int getVariantCount() {
 		return variantCount;
 	}
@@ -71,14 +69,6 @@ public class VcfFile {
 
 	public void setChromosomes(Set<String> chromosomes) {
 		this.chromosomes = chromosomes;
-	}
-
-	public void setChrPrefix(boolean chrPrefix) {
-		this.chrPrefix = chrPrefix;
-	}
-
-	public boolean hasChrPrefix() {
-		return this.chrPrefix;
 	}
 
 	public void setPhased(boolean phased) {

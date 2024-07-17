@@ -14,7 +14,6 @@ public class VcfFileUtil {
 	public static VcfFile load(Path vcfFilename) throws IOException {
 
 		Set<String> chromosomes = new HashSet<String>();
-		Set<String> rawChromosomes = new HashSet<String>();
 		int snps = 0;
 		int samples = 0;
 
@@ -45,10 +44,6 @@ public class VcfFileUtil {
 						throw new IOException("The provided VCF file is not tab-delimited");
 					}
 
-					String chromosome = tiles[0];
-					rawChromosomes.add(chromosome);
-					chromosome = chromosome.replaceAll("chr", "");
-
 					if (samples > 0) {
 
 						if (phased) {
@@ -73,11 +68,8 @@ public class VcfFileUtil {
 						}
 					}
 
+					String chromosome = tiles[0];
 					chromosomes.add(chromosome);
-					if (chromosomes.size() > 1) {
-						throw new IOException(
-								"The provided VCF file contains more than one chromosome. Please split your input VCF file by chromosome");
-					}
 
 					String ref = tiles[3];
 					String alt = tiles[4];
@@ -121,14 +113,6 @@ public class VcfFileUtil {
 			file.setSampleCount(samples);
 			file.setChromosomes(chromosomes);
 			file.setHeader(header);
-
-			boolean hasChrPrefix = false;
-			for (String chromosome : rawChromosomes) {
-				if (chromosome.startsWith("chr")) {
-					hasChrPrefix = true;
-				}
-			}
-			file.setChrPrefix(hasChrPrefix);
 			file.setPhased(phased);
 			file.setPhasedAutodetect(phasedAutodetect);
 			return file;

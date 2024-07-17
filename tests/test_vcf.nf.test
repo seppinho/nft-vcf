@@ -4,7 +4,7 @@ nextflow_process {
 
     script "./test_vcf.nf"
     process "TEST_VCF"
-
+    
     test("Should output samples") {
 
         when {
@@ -253,5 +253,26 @@ nextflow_process {
             assert workflow.success
         }
        }   
-    } 
+    }
+
+    test("Should output chromosomes") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+            with(path(filename).vcf) {
+            assert chromosomes == ['1'] as Set
+            assert chromosome == '1'
+        }
+        
+       }   
+    }      
+   
 }
