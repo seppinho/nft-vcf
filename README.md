@@ -55,6 +55,18 @@ Returns VCF summary attributes (chromosomes, variantCount, sampleCount, phasing 
 ```groovy
 path("file.vcf.gz").vcf.summary
 ```
+### `chromosomes()`
+Returns all chromosomes as a set of Strings.
+```groovy
+path("file.vcf.gz").vcf.chromosomes == ['20'] as Set
+
+```
+### `chromosome()`
+Returns the first chromosome as a String.
+```groovy
+path("file.vcf.gz").vcf.chromosome == '20'
+```
+
 ### `getVariant(String chromosome, String position)`
 Returns a [VariantContext](https://samtools.github.io/htsjdk/javadoc/htsjdk/htsjdk/variant/variantcontext/VariantContext.html) instance and allows you to access all available methods.
 ```groovy
