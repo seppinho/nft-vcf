@@ -27,17 +27,20 @@ nft-vcf extends `path` by a `vcf` property that can be used to read VCF files. I
 
 ```groovy
 def vcfFile = path("${outputDir}/chr20.dose.vcf.gz").vcf
-assert vcfFile.chromosome == "20" 
+assert vcfFile.chromosomes == ['20'] as Set 
 assert vcfFile.sampleCount == 51
 assert vcfFile.phased
 assert vcfFile.variantCount == 7824
-
+//output first chromosome
+assert vcfFile.chromosome == "20"
 //or
 with(path(filename).vcf) {
-   assert chromosome == "20"
+   assert chromosomes == ['20'] as Set
    assert sampleCount == 51
    assert phased
    assert variantCount == 7824     
+   //output first chromosome
+   assert chromosome == "20"
 }
 ```
 
