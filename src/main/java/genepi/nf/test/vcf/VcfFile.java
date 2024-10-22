@@ -108,28 +108,27 @@ public class VcfFile {
 		return this.toString();
 	}
 
-	
 	@Override
 	public String toString() {
-		return "VcfFile [chromosomes=" + chromosomes + ", sampleCount=" + sampleCount + ", variantCount=" + variantCount + ", phased=" + phased
-				+ ", phasedAutodetect=" + phasedAutodetect + "]";
+		return "VcfFile [chromosomes=" + chromosomes + ", sampleCount=" + sampleCount + ", variantCount=" + variantCount
+				+ ", phased=" + phased + ", phasedAutodetect=" + phasedAutodetect + "]";
 	}
-	
+
 	public VariantContext getVariant(String chromosome, int position) throws IOException {
 		createIndex();
 		VCFFileReader reader = new VCFFileReader(new File(vcfFilename), true);
 		CloseableIterator<VariantContext> it = reader.query(chromosome, position, position);
-		
+
 		while (it.hasNext()) {
 			VariantContext line = it.next();
 			reader.close();
 			return line;
-			}
-		
+		}
+
 		reader.close();
 		return null;
 	}
-	
+
 	public ArrayList<VariantContext> getVariants() throws IOException {
 		return getVariants(-1);
 	}
@@ -185,33 +184,33 @@ public class VcfFile {
 		lineReader.close();
 		return new BigInteger(1, md.digest()).toString(16);
 	}
-	
+
 	public ArrayList<VariantContext> getVariantsByRange(String chromosome, int start, int stop) throws IOException {
 
 		createIndex();
 		VCFFileReader reader = new VCFFileReader(new File(vcfFilename), true);
 		ArrayList<VariantContext> variants = new ArrayList<VariantContext>();
 		CloseableIterator<VariantContext> it = reader.query(chromosome, start, stop);
-		
+
 		while (it.hasNext()) {
 			VariantContext line = it.next();
 			variants.add(line);
-			}
-		
+		}
+
 		reader.close();
 		return variants;
 
-	}	
-	
+	}
+
 	public double getInfoR2(String chromosome, int position) throws IOException {
 		String value = getInfoTag("R2", chromosome, position);
 		return Double.valueOf(value);
 	}
-	
+
 	public String getInfoTag(String tag, String chromosome, int position) throws IOException {
 		VariantContext vc = getVariant(chromosome, position);
 		return vc.getAttributeAsString(tag, "N/A");
-	}	
+	}
 
 	@Deprecated
 	public int getNoSnps() {
@@ -234,12 +233,19 @@ public class VcfFile {
 	}
 
 	public void createIndex() throws IOException {
-        File vcfFile = new File(vcfFilename);
-        VCFFileReader reader = new VCFFileReader(vcfFile, false);
-        SAMSequenceDictionary vcfDict = reader.getFileHeader().getSequenceDictionary();
-		TabixIndex index = IndexFactory.createTabixIndex(new File(vcfFilename), new VCFCodec(), TabixFormat.VCF, vcfDict);
-		index.writeBasedOnFeatureFile(new File(vcfFilename));
-		reader.close();
+		File vcfFile = new File(vcfFilename);
+
+		String tbiFilename = vcfFilename + ".tbi";
+		File tbiFile = new File(tbiFilename);
+
+		if (!tbiFile.exists()) {
+			VCFFileReader reader = new VCFFileReader(vcfFile, false);
+			SAMSequenceDictionary vcfDict = reader.getFileHeader().getSequenceDictionary();
+			TabixIndex index = IndexFactory.createTabixIndex(new File(vcfFilename), new VCFCodec(), TabixFormat.VCF,
+					vcfDict);
+			index.writeBasedOnFeatureFile(new File(vcfFilename));
+			reader.close();
+		}
 	}
 
 }
