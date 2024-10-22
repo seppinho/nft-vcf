@@ -10,7 +10,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
           """
           }
         }
@@ -35,7 +35,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -53,7 +53,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -72,7 +72,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -92,7 +92,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -110,7 +110,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
           """
           }
         }
@@ -132,7 +132,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -151,7 +151,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
           """
           }
         }
@@ -169,7 +169,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
           """
           }
         }
@@ -187,7 +187,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -205,7 +205,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -223,7 +223,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -241,7 +241,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.info.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.info.gz")
           """
           }
         }
@@ -260,7 +260,7 @@ nextflow_process {
         when {
           process {
           """
-          input[0] = file("${projectDir}/tests/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.dose.vcf.gz")
           """
           }
         }
@@ -273,6 +273,26 @@ nextflow_process {
         }
         
        }   
-    }      
-   
+    }
+    
+    test("Should output chromosomes from VCF") {
+
+        when {
+          process {
+          """
+          input[0] = file("${projectDir}/tests/data/valid/chunk_1_0240000001_0260000000.phased.dose.vcf")
+          """
+          }
+        }
+
+        then {
+          def filename = process.out.vcf.get(0)
+            with(path(filename).vcf) {
+            assert chromosomes == ['1'] as Set
+            assert chromosome == '1'
+        }
+        
+       }   
+    }    
+    
 }
