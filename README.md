@@ -1,4 +1,5 @@
 [![CI Tests](https://github.com/seppinho/nft-vcf/actions/workflows/run-tests.yml/badge.svg)](https://github.com/seppinho/nft-vcf/actions/workflows/run-tests.yml)
+[![nf-test](https://img.shields.io/badge/tested_with-nf--test-337ab7.svg)](https://github.com/askimed/nf-test)
 
 # nft-vcf
 
