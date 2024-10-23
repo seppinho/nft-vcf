@@ -1,3 +1,5 @@
+[![CI Tests](https://github.com/seppinho/nft-vcf/actions/workflows/run-tests.yml/badge.svg)](https://github.com/seppinho/nft-vcf/actions/workflows/run-tests.yml)
+
 # nft-vcf
 
 nf-test plugin to support VCF files.
